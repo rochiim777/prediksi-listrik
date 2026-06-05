@@ -540,3 +540,29 @@ code {
         max-height: 220px;
     }
 }
+
+.language-switch {
+    display: flex;
+    gap: 8px;
+}
+
+.lang-btn {
+    border: 1px solid var(--border);
+    background: var(--panel);
+    color: var(--text);
+    min-height: 42px;
+    padding: 0 14px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.lang-btn:hover {
+    transform: translateY(-2px);
+}
+
+.lang-btn.active {
+    background: linear-gradient(135deg, var(--cyan), var(--green));
+    color: #03111d;
+    font-weight: 700;
+}

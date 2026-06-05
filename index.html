@@ -26,8 +26,18 @@
             </div>
         </div>
         <div class="top-actions">
-            <button id="sampleBtn" class="icon-btn" title="Isi contoh data"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
-            <button id="themeBtn" class="icon-btn" title="Mode terang/gelap"><i class="fa-solid fa-circle-half-stroke"></i></button>
+            <div class="language-switch">
+                <button id="idBtn" class="lang-btn active">🇮🇩 ID</button>
+                <button id="enBtn" class="lang-btn">🇺🇸 EN</button>
+            </div>
+
+            <button id="sampleBtn" class="icon-btn" title="Isi contoh data">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+            </button>
+
+            <button id="themeBtn" class="icon-btn" title="Mode terang/gelap">
+                <i class="fa-solid fa-circle-half-stroke"></i>
+            </button>
         </div>
     </nav>
 
@@ -42,7 +52,7 @@
         <section class="hero">
             <div>
                 <p class="eyebrow">VOLTNOTE</p>
-                <h1>Menghitung Konsumsi Listrik Menggunakan Metode Interpolasi dan Regresi</h1>
+                <h1 id="heroTitle">Menghitung Konsumsi Listrik Menggunakan Metode Interpolasi dan Regresi</h1>
                 <p class="lead">Dashboard edukasi untuk memasukkan data bulanan, melihat proses perhitungan, memprediksi konsumsi, dan mengekspor hasil.</p>
             </div>
             <div class="hero-meter" aria-label="Ilustrasi energi">
@@ -90,7 +100,7 @@
             <article class="panel" id="input">
                 <div class="panel-header">
                     <div>
-                        <h2>Input Data</h2>
+                        <h2 id="inputTitle">Input Data</h2>
                         <p>Masukkan bulan, kWh, dan biaya listrik</p>
                     </div>
                     <i class="fa-solid fa-pen-to-square"></i>
@@ -138,7 +148,7 @@
             <article class="panel" id="table">
                 <div class="panel-header">
                     <div>
-                        <h2>Tabel Data</h2>
+                        <h2 id="tableTitle">Tabel Data</h2>
                         <p>Data aktual penggunaan listrik</p>
                     </div>
                     <i class="fa-solid fa-table-list"></i>
@@ -166,7 +176,7 @@
             <article class="panel" id="result">
                 <div class="panel-header">
                     <div>
-                        <h2>Hasil Perhitungan</h2>
+                        <h2 id="resultTitle">Hasil Perhitungan</h2>
                         <p>Rumus, langkah, dan kesimpulan otomatis</p>
                     </div>
                     <i class="fa-solid fa-square-root-variable"></i>

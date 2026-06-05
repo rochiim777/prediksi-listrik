@@ -311,17 +311,69 @@ function exportExcel() {
         return;
     }
 
+    const calculations = calculateAll();
+
     const rows = data.map((item, index) => ({
         x: index + 1,
         Bulan: item.month,
         kWh: item.kwh,
         Biaya: item.cost
     }));
+
+    // Baris kosong
+    rows.push({});
+
+    // Hasil Interpolasi
+    if (calculations.interpolation && !calculations.interpolation.error) {
+        rows.push({
+            x: "",
+            Bulan: "Hasil Interpolasi",
+            kWh: calculations.interpolation.y.toFixed(2),
+            Biaya: ""
+        });
+    }
+
+    // Persamaan Regresi
+    if (calculations.regression) {
+        rows.push({
+            x: "",
+            Bulan: "Persamaan Regresi",
+            kWh: `y = ${calculations.regression.a.toFixed(4)} + ${calculations.regression.b.toFixed(4)}x`,
+            Biaya: ""
+        });
+
+        // Prediksi
+        rows.push({
+            x: calculations.nextX,
+            Bulan: "Prediksi Bulan Berikutnya",
+            kWh: calculations.prediction.toFixed(2),
+            Biaya: ""
+        });
+    }
+
     const worksheet = XLSX.utils.json_to_sheet(rows);
+
+    // Lebar kolom otomatis
+    worksheet["!cols"] = [
+        { wch: 8 },
+        { wch: 30 },
+        { wch: 30 },
+        { wch: 20 }
+    ];
+
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Konsumsi Listrik");
-    XLSX.writeFile(workbook, "hasil-konsumsi-listrik.xlsx");
-    showToast("File Excel dibuat.");
+    XLSX.utils.book_append_sheet(
+        workbook,
+        worksheet,
+        "Konsumsi Listrik"
+    );
+
+    XLSX.writeFile(
+        workbook,
+        "laporan-konsumsi-listrik.xlsx"
+    );
+
+    showToast("File Excel berhasil dibuat.");
 }
 
 function downloadPdf() {
@@ -371,3 +423,52 @@ function escapeHtml(value) {
         .replaceAll('"', "&quot;")
         .replaceAll("'", "&#039;");
 }
+
+const idBtn = document.getElementById("idBtn");
+const enBtn = document.getElementById("enBtn");
+
+function setLanguage(lang) {
+
+    if (lang === "id") {
+
+        document.getElementById("heroTitle").textContent =
+            "Menghitung Konsumsi Listrik Menggunakan Metode Interpolasi dan Regresi";
+
+        document.getElementById("inputTitle").textContent =
+            "Input Data";
+
+        document.getElementById("tableTitle").textContent =
+            "Tabel Data";
+
+        document.getElementById("resultTitle").textContent =
+            "Hasil Perhitungan";
+
+    } else {
+
+        document.getElementById("heroTitle").textContent =
+            "Electricity Consumption Using Interpolation and Linear Regression";
+
+        document.getElementById("inputTitle").textContent =
+            "Input Data";
+
+        document.getElementById("tableTitle").textContent =
+            "Data Table";
+
+        document.getElementById("resultTitle").textContent =
+            "Calculation Results";
+    }
+}
+
+idBtn.addEventListener("click", () => {
+    setLanguage("id");
+
+    idBtn.classList.add("active");
+    enBtn.classList.remove("active");
+});
+
+enBtn.addEventListener("click", () => {
+    setLanguage("en");
+
+    enBtn.classList.add("active");
+    idBtn.classList.remove("active");
+});
