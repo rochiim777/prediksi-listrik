@@ -97,7 +97,21 @@
                 </div>
                 <form id="dataForm" class="input-form">
                     <label>Bulan
-                        <input id="monthInput" type="text" placeholder="Contoh: Januari" autocomplete="off">
+                            <select id="monthInput">
+                                <option value="" selected disabled>Pilih Bulan</option>
+                                <option value="Januari">Januari</option>
+                                <option value="Februari">Februari</option>
+                                <option value="Maret">Maret</option>
+                                <option value="April">April</option>
+                                <option value="Mei">Mei</option>
+                                <option value="Juni">Juni</option>
+                                <option value="Juli">Juli</option>
+                                <option value="Agustus">Agustus</option>
+                                <option value="September">September</option>
+                                <option value="Oktober">Oktober</option>
+                                <option value="November">November</option>
+                                <option value="Desember">Desember</option>
+                            </select>
                     </label>
                     <label>Pemakaian listrik (kWh)
                         <input id="kwhInput" type="number" min="0" step="0.01" placeholder="Contoh: 210">

@@ -380,7 +380,8 @@ label {
     font-size: 0.9rem;
 }
 
-input {
+input,
+select {
     width: 100%;
     min-height: 46px;
     padding: 0 14px;
@@ -391,9 +392,15 @@ input {
     outline: none;
 }
 
-input:focus {
+input:focus,
+select:focus {
     border-color: var(--cyan);
     box-shadow: 0 0 0 4px rgba(25, 215, 255, 0.12);
+}
+
+select option {
+    background: #0b1f34;
+    color: #ecf8ff;
 }
 
 .table-wrap {
