@@ -513,7 +513,10 @@ const translations = {
         noExportData:
         "Tidak ada data untuk diekspor.",
         
-        noPdfData:"Tidak ada data untuk PDF."
+        noPdfData:"Tidak ada data untuk PDF.",
+
+        chartTitle: "Grafik Konsumsi",
+        chartDesc: "Aktual, interpolasi, dan prediksi regresi"
     },
 
     en: {
@@ -601,7 +604,9 @@ const translations = {
         "No data available for export.",
         
         noPdfData:
-        "No data available for PDF."
+        "No data available for PDF.",
+        chartTitle: "Consumption Chart",
+        chartDesc: "Actual, interpolation, and regression prediction"
         }
     };
 
