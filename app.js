@@ -472,3 +472,72 @@ enBtn.addEventListener("click", () => {
     enBtn.classList.add("active");
     idBtn.classList.remove("active");
 });
+
+const translations = {
+    id: {
+        heroTitle: "Menghitung Konsumsi Listrik Menggunakan Metode Interpolasi dan Regresi",
+        heroLead: "Dashboard edukasi untuk memasukkan data bulanan, melihat proses perhitungan, memprediksi konsumsi, dan mengekspor hasil.",
+
+        sidebarDashboard: "Dashboard",
+        sidebarInput: "Input",
+        sidebarData: "Data",
+        sidebarResult: "Hasil",
+
+        predictLabel: "Prediksi bulan berikutnya",
+
+        inputTitle: "Input Data",
+        tableTitle: "Tabel Data",
+        resultTitle: "Hasil Perhitungan"
+    },
+
+    en: {
+        heroTitle: "Electricity Consumption Using Interpolation and Linear Regression",
+        heroLead: "Educational dashboard for entering monthly data, viewing calculations, predicting consumption, and exporting results.",
+
+        sidebarDashboard: "Dashboard",
+        sidebarInput: "Input",
+        sidebarData: "Data",
+        sidebarResult: "Results",
+
+        predictLabel: "Next Month Prediction",
+
+        inputTitle: "Input Data",
+        tableTitle: "Data Table",
+        resultTitle: "Calculation Results"
+    }
+};
+
+function setLanguage(lang) {
+
+    Object.keys(translations[lang]).forEach(key => {
+
+        const element = document.getElementById(key);
+
+        if (element) {
+            element.textContent = translations[lang][key];
+        }
+
+    });
+
+}
+
+const idBtn = document.getElementById("idBtn");
+const enBtn = document.getElementById("enBtn");
+
+idBtn.addEventListener("click", () => {
+
+    setLanguage("id");
+
+    idBtn.classList.add("active");
+    enBtn.classList.remove("active");
+
+});
+
+enBtn.addEventListener("click", () => {
+
+    setLanguage("en");
+
+    enBtn.classList.add("active");
+    idBtn.classList.remove("active");
+
+});
