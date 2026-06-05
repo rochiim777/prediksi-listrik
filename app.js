@@ -29,7 +29,7 @@ dataForm.addEventListener("submit", (event) => {
     addData();
 });
 
-document.getElementById("calculateBtn").addEventListener("click", render);
+document.querySelector(".primary-btn.full").addEventListener("click", render);
 document.getElementById("resetBtn").addEventListener("click", resetData);
 document.getElementById("sampleBtn").addEventListener("click", loadSampleData);
 document.getElementById("themeBtn").addEventListener("click", () => {
