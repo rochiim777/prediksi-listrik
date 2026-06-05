@@ -12,6 +12,50 @@ let data = [];
 
 let currentLanguage =localStorage.getItem("language") || "id";
 
+const months = {
+    id: [
+        "Januari","Februari","Maret","April",
+        "Mei","Juni","Juli","Agustus",
+        "September","Oktober","November","Desember"
+    ],
+
+    en: [
+        "January","February","March","April",
+        "May","June","July","August",
+        "September","October","November","December"
+    ]
+};
+
+function updateMonthOptions(lang) {
+
+    const monthInput = document.getElementById("monthInput");
+
+    monthInput.innerHTML = "";
+
+    const defaultOption = document.createElement("option");
+    defaultOption.value = "";
+    defaultOption.disabled = true;
+    defaultOption.selected = true;
+
+    defaultOption.textContent =
+        lang === "id"
+            ? "Pilih Bulan"
+            : "Select Month";
+
+    monthInput.appendChild(defaultOption);
+
+    months[lang].forEach(month => {
+
+        const option = document.createElement("option");
+
+        option.value = month;
+        option.textContent = month;
+
+        monthInput.appendChild(option);
+
+    });
+}
+
 
 const currency = new Intl.NumberFormat("id-ID", {
     style: "currency",
@@ -19,7 +63,23 @@ const currency = new Intl.NumberFormat("id-ID", {
     maximumFractionDigits: 0
 });
 
-window.addEventListener("load", () => {setTimeout(() =>document.getElementById("loader").classList.add("hidden"), 450);setLanguage(currentLanguage);render();
+window.addEventListener("load", () => {
+
+    const savedLanguage =
+        localStorage.getItem("language") || "id";
+
+    currentLanguage = savedLanguage;
+
+    setLanguage(savedLanguage);
+
+    setTimeout(() =>
+        document.getElementById("loader")
+            .classList.add("hidden"),
+        450
+    );
+
+    render();
+
 });
 
 dataForm.addEventListener("submit", (event) => {
@@ -106,7 +166,7 @@ function calculateInterpolation(xValues, yValues, targetX) {
     const minX = Math.min(...xValues);
     const maxX = Math.max(...xValues);
     if (targetX < minX || targetX > maxX) {
-        return { error: "Nilai x interpolasi harus berada di antara data aktual." };
+        return {error: translations[currentLanguage].interpolationError};
     }
 
     let rightIndex = xValues.findIndex((x) => x >= targetX);
@@ -210,7 +270,7 @@ function renderResult({ interpolation, interpolationX, regression, nextX, predic
                 ${translations[currentLanguage].conclusionText} ${regression.b >= 0
                                                                   ? translations[currentLanguage].increase
                                                                   : translations[currentLanguage].decrease}
-                sebesar ${Math.abs(regression.b).toFixed(2)} kWh setiap bulan. Estimasi konsumsi bulan berikutnya adalah ${prediction.toFixed(2)} kWh.
+                ${Math.abs(regression.b).toFixed(2)} ${translations[currentLanguage].everyMonth}${translations[currentLanguage].estimateText} ${prediction.toFixed(2)} kWh.
             </div>
         `
         : "";
@@ -516,7 +576,15 @@ const translations = {
         noPdfData:"Tidak ada data untuk PDF.",
 
         chartTitle: "Grafik Konsumsi",
-        chartDesc: "Aktual, interpolasi, dan prediksi regresi"
+        chartDesc: "Aktual, interpolasi, dan prediksi regresi",
+
+        interpolationError:"Nilai x interpolasi harus berada di antara data aktual.",
+
+        knownX: "Diketahui x",
+        nearestPoint: "titik terdekat adalah",
+        everyMonth: "kWh setiap bulan.",
+        estimateText: "Estimasi konsumsi bulan berikutnya adalah",
+
     },
 
     en: {
@@ -606,7 +674,14 @@ const translations = {
         noPdfData:
         "No data available for PDF.",
         chartTitle: "Consumption Chart",
-        chartDesc: "Actual, interpolation, and regression prediction"
+        chartDesc: "Actual, interpolation, and regression prediction",
+
+        interpolationError:"Interpolation x value must be between actual data points.",
+
+        knownX: "Given x",
+        nearestPoint: "nearest points are",
+        everyMonth: "kWh per month.",
+        estimateText: "The estimated electricity consumption for next month is"
         }
     };
 
@@ -625,6 +700,8 @@ function setLanguage(lang) {
         }
 
     });
+
+    updateMonthOptions(lang);
 
     render(); // tambahkan ini
 
