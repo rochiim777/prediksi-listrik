@@ -42,23 +42,23 @@
     </nav>
 
     <aside class="sidebar">
-        <a href="#dashboard" class="active"><i class="fa-solid fa-chart-line"></i><span>Dashboard</span></a>
-        <a href="#input"><i class="fa-solid fa-keyboard"></i><span>Input</span></a>
-        <a href="#table"><i class="fa-solid fa-table"></i><span>Data</span></a>
-        <a href="#result"><i class="fa-solid fa-square-root-variable"></i><span>Hasil</span></a>
-    </aside>
+        <a href="#dashboard" class="active"><i class="fa-solid fa-chart-line"></i><span id="sidebarDashboard">Dashboard</span></a>
+        <a href="#input"><i class="fa-solid fa-keyboard"></i><span id="sidebarInput">Input</span>
+        <a href="#table"><i class="fa-solid fa-table"></i><span id="sidebarData">Data</span>
+        <a href="#result"><i class="fa-solid fa-square-root-variable"></i><span id="sidebarResult">Hasil</span>
+   
 
     <main class="workspace" id="dashboard">
         <section class="hero">
             <div>
                 <p class="eyebrow">VOLTNOTE</p>
                 <h1 id="heroTitle">Menghitung Konsumsi Listrik Menggunakan Metode Interpolasi dan Regresi</h1>
-                <p class="lead">Dashboard edukasi untuk memasukkan data bulanan, melihat proses perhitungan, memprediksi konsumsi, dan mengekspor hasil.</p>
+                <p id="heroLead" class="lead">Dashboard edukasi untuk memasukkan data bulanan, melihat proses perhitungan, memprediksi konsumsi, dan mengekspor hasil.</p>
             </div>
             <div class="hero-meter" aria-label="Ilustrasi energi">
                 <i class="fa-solid fa-plug-circle-bolt"></i>
                 <strong id="heroPrediction">0 kWh</strong>
-                <span>Prediksi bulan berikutnya</span>
+                <span id="predictLabel">Prediksi bulan berikutnya</span>
             </div>
         </section>
 
