@@ -10,7 +10,7 @@ const toast = document.getElementById("toast");
 let energyChart;
 let data = [];
 
-let currentLanguage = "id";
+let currentLanguage =localStorage.getItem("language") || "id";
 
 
 const currency = new Intl.NumberFormat("id-ID", {
@@ -19,9 +19,7 @@ const currency = new Intl.NumberFormat("id-ID", {
     maximumFractionDigits: 0
 });
 
-window.addEventListener("load", () => {
-    setTimeout(() => document.getElementById("loader").classList.add("hidden"), 450);
-    render();
+window.addEventListener("load", () => {setTimeout(() =>document.getElementById("loader").classList.add("hidden"), 450);setLanguage(currentLanguage);render();
 });
 
 dataForm.addEventListener("submit", (event) => {
@@ -375,7 +373,7 @@ function exportExcel() {
 
     showToast(currentLanguage === "id"? "File Excel berhasil dibuat.": "Excel file created successfully."
     );
-
+}
 function downloadPdf() {
     if (!data.length) {
         showToast(
@@ -515,9 +513,9 @@ const translations = {
         noExportData:
         "Tidak ada data untuk diekspor.",
         
-        noPdfData:
-        "Tidak ada data untuk PDF."
-    },
+        noPdfData:"Tidak ada data untuk PDF."
+            }
+        };
 
     en: {
         heroTitle: "Electricity Consumption Using Interpolation and Linear Regression",
