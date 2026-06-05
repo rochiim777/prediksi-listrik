@@ -424,54 +424,6 @@ function escapeHtml(value) {
         .replaceAll("'", "&#039;");
 }
 
-const idBtn = document.getElementById("idBtn");
-const enBtn = document.getElementById("enBtn");
-
-function setLanguage(lang) {
-
-    if (lang === "id") {
-
-        document.getElementById("heroTitle").textContent =
-            "Menghitung Konsumsi Listrik Menggunakan Metode Interpolasi dan Regresi";
-
-        document.getElementById("inputTitle").textContent =
-            "Input Data";
-
-        document.getElementById("tableTitle").textContent =
-            "Tabel Data";
-
-        document.getElementById("resultTitle").textContent =
-            "Hasil Perhitungan";
-
-    } else {
-
-        document.getElementById("heroTitle").textContent =
-            "Electricity Consumption Using Interpolation and Linear Regression";
-
-        document.getElementById("inputTitle").textContent =
-            "Input Data";
-
-        document.getElementById("tableTitle").textContent =
-            "Data Table";
-
-        document.getElementById("resultTitle").textContent =
-            "Calculation Results";
-    }
-}
-
-idBtn.addEventListener("click", () => {
-    setLanguage("id");
-
-    idBtn.classList.add("active");
-    enBtn.classList.remove("active");
-});
-
-enBtn.addEventListener("click", () => {
-    setLanguage("en");
-
-    enBtn.classList.add("active");
-    idBtn.classList.remove("active");
-});
 
 const translations = {
     id: {
