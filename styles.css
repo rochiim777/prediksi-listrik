@@ -581,7 +581,22 @@ code {
 }
 
 *{
-    font-family: Cambria, Georgia, serif !important;
+    body,
+input,
+button,
+select,
+textarea,
+table {
+    font-family: Cambria, Georgia, serif;
+}
+
+.fa-solid,
+.fa-regular,
+.fa-brands,
+.fas,
+.far,
+.fab {
+    font-family: "Font Awesome 6 Free" !important;
 }
 
 @media (max-width: 640px){
