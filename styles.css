@@ -583,3 +583,95 @@ code {
 *{
     font-family: Cambria, Georgia, serif !important;
 }
+
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
+@media (max-width: 768px) {
+
+    /* Sidebar jadi horizontal */
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        flex-direction: row;
+        justify-content: space-around;
+        padding: 10px;
+    }
+
+    .sidebar a span {
+        display: none;
+    }
+
+    /* Workspace penuh */
+    .workspace {
+        margin-left: 0;
+        padding: 15px;
+    }
+
+    /* Hero */
+    .hero {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+
+    .hero h1 {
+        font-size: 1.5rem;
+    }
+
+    .hero-meter {
+        width: 100%;
+    }
+
+    /* Statistik */
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Layout panel */
+    .layout-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Form */
+    .input-form {
+        grid-template-columns: 1fr;
+    }
+
+    /* Tombol */
+    .button-row {
+        flex-direction: column;
+    }
+
+    .button-row button {
+        width: 100%;
+    }
+
+    /* Grafik */
+    .chart-panel {
+        min-height: 350px;
+    }
+
+    /* Tabel scroll */
+    .table-wrap {
+        overflow-x: auto;
+    }
+
+    table {
+        min-width: 600px;
+    }
+
+    /* Font */
+    body {
+        font-size: 14px;
+    }
+
+    h1 {
+        font-size: 1.6rem;
+    }
+
+    h2 {
+        font-size: 1.2rem;
+    }
+}
