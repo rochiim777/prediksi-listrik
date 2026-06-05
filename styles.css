@@ -180,7 +180,7 @@ body.light .topbar {
     position: fixed;
     top: 96px;
     left: 24px;
-    width: 210px;
+    width: 190px;
     padding: 14px;
     border: 1px solid var(--border);
     border-radius: 18px;
@@ -241,7 +241,7 @@ h2 {
 h1 {
     max-width: 850px;
     margin: 0;
-    font-size: clamp(2.1rem, 4vw, 4.7rem);
+    font-size: clamp(1.8rem, 4vw, 3.8rem);
     line-height: 1.04;
 }
 
@@ -584,94 +584,39 @@ code {
     font-family: Cambria, Georgia, serif !important;
 }
 
-/* =========================
-   MOBILE RESPONSIVE
-========================= */
-@media (max-width: 768px) {
+@media (max-width: 640px){
 
-    /* Sidebar jadi horizontal */
-    .sidebar {
-        width: 100%;
-        height: auto;
-        position: relative;
-        flex-direction: row;
-        justify-content: space-around;
-        padding: 10px;
+    .hero{
+        padding:20px;
     }
 
-    .sidebar a span {
-        display: none;
+    .hero-meter{
+        min-height:180px;
     }
 
-    /* Workspace penuh */
-    .workspace {
-        margin-left: 0;
-        padding: 15px;
+    .workspace{
+        padding:0 12px 24px;
     }
 
-    /* Hero */
-    .hero {
-        flex-direction: column;
-        text-align: center;
-        gap: 20px;
+    .panel{
+        padding:16px;
     }
 
-    .hero h1 {
-        font-size: 1.5rem;
+    .stat-card{
+        min-height:100px;
     }
 
-    .hero-meter {
-        width: 100%;
+    h1{
+        font-size:1.8rem;
     }
 
-    /* Statistik */
-    .stats-grid {
-        grid-template-columns: 1fr;
+    .top-actions{
+        width:100%;
+        justify-content:flex-start;
     }
 
-    /* Layout panel */
-    .layout-grid {
-        grid-template-columns: 1fr;
-    }
-
-    /* Form */
-    .input-form {
-        grid-template-columns: 1fr;
-    }
-
-    /* Tombol */
-    .button-row {
-        flex-direction: column;
-    }
-
-    .button-row button {
-        width: 100%;
-    }
-
-    /* Grafik */
-    .chart-panel {
-        min-height: 350px;
-    }
-
-    /* Tabel scroll */
-    .table-wrap {
-        overflow-x: auto;
-    }
-
-    table {
-        min-width: 600px;
-    }
-
-    /* Font */
-    body {
-        font-size: 14px;
-    }
-
-    h1 {
-        font-size: 1.6rem;
-    }
-
-    h2 {
-        font-size: 1.2rem;
+    .lang-btn{
+        padding:0 10px;
+        font-size:0.8rem;
     }
 }
