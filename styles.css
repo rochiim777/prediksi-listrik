@@ -37,7 +37,7 @@ body {
     background:
         radial-gradient(circle at top left, rgba(25, 215, 255, 0.16), transparent 30rem),
         linear-gradient(135deg, #06121f 0%, var(--bg) 45%, #091b2d 100%);
-    font-family: Inter, Roboto, Arial, sans-serif;
+    font-family: Cambria, Georgia, serif;
 }
 
 body.light {
@@ -114,7 +114,7 @@ body.light .topbar {
 
 .brand strong {
     display: block;
-    font-family: Poppins, Inter, sans-serif;
+    font-family:  Cambria, Georgia, serif;
     font-size: 1.05rem;
 }
 
@@ -234,7 +234,7 @@ body.light .topbar {
 
 h1,
 h2 {
-    font-family: Poppins, Inter, sans-serif;
+    font-family: Cambria, Georgia, serif;
     letter-spacing: 0;
 }
 
@@ -578,4 +578,8 @@ code {
     background: linear-gradient(135deg, var(--cyan), var(--green));
     color: #03111d;
     font-weight: 700;
+}
+
+*{
+    font-family: Cambria, Georgia, serif !important;
 }
