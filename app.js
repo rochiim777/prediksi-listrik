@@ -52,7 +52,7 @@ function addData() {
     data.push({ month, kwh, cost });
     dataForm.reset();
     render();
-    showToast("Data berhasil ditambahkan.");
+    showToast(translations[currentLanguage].dataAdded);
 }
 
 function resetData() {
@@ -77,7 +77,7 @@ function loadSampleData() {
 function deleteRow(index) {
     data.splice(index, 1);
     render();
-    showToast("Data dihapus.");
+    showToast(translations[currentLanguage].dataDeleted);
 }
 
 function render() {
@@ -186,30 +186,32 @@ function renderResult({ interpolation, interpolationX, regression, nextX, predic
         ? `<div class="step">${interpolation.error}</div>`
         : `
             <div class="step">
-                <strong>Interpolasi Linear</strong><br>
+                <strong>${translations[currentLanguage].interpolationTitle}</strong>
                 Diketahui x = ${interpolationX}, titik terdekat adalah
                 (${interpolation.x1}, ${interpolation.y1}) dan (${interpolation.x2}, ${interpolation.y2}).<br>
                 y = ${interpolation.y1} + ((${interpolationX} - ${interpolation.x1}) / (${interpolation.x2} - ${interpolation.x1})) * (${interpolation.y2} - ${interpolation.y1})<br>
-                <strong>Hasil interpolasi = ${interpolation.y.toFixed(2)} kWh</strong>
+                <strong>${translations[currentLanguage].interpolationResult} = ${interpolation.y.toFixed(2)} kWh</strong>
             </div>
         `;
 
     const regressionHtml = regression
         ? `
             <div class="step">
-                <strong>Regresi Linear</strong><br>
+                <strong>${translations[currentLanguage].regressionTitle}</strong>
                 n = ${regression.n}, Σx = ${regression.sumX.toFixed(2)}, Σy = ${regression.sumY.toFixed(2)},
                 Σxy = ${regression.sumXY.toFixed(2)}, Σx² = ${regression.sumX2.toFixed(2)}<br>
                 b = (${regression.n}(${regression.sumXY.toFixed(2)}) - (${regression.sumX.toFixed(2)})(${regression.sumY.toFixed(2)})) /
                 (${regression.n}(${regression.sumX2.toFixed(2)}) - (${regression.sumX.toFixed(2)})²)<br>
                 a = (Σy - bΣx) / n<br>
                 <strong>a = ${regression.a.toFixed(4)}, b = ${regression.b.toFixed(4)}</strong><br>
-                Persamaan: <strong>y = ${regression.a.toFixed(4)} + ${regression.b.toFixed(4)}x</strong><br>
-                Prediksi bulan ke-${nextX}: <strong>${prediction.toFixed(2)} kWh</strong>
+                ${translations[currentLanguage].equation}: <strong>y = ${regression.a.toFixed(4)} + ${regression.b.toFixed(4)}x</strong><br>
+                ${translations[currentLanguage].prediction}${nextX}: <strong>${prediction.toFixed(2)} kWh</strong>
             </div>
             <div class="step">
-                <strong>Kesimpulan</strong><br>
-                Berdasarkan data yang dimasukkan, konsumsi listrik cenderung ${regression.b >= 0 ? "meningkat" : "menurun"}
+                <strong>${translations[currentLanguage].conclusionTitle}</strong>
+                ${translations[currentLanguage].conclusionText} ${regression.b >= 0
+                                                                  ? translations[currentLanguage].increase
+                                                                  : translations[currentLanguage].decrease}
                 sebesar ${Math.abs(regression.b).toFixed(2)} kWh setiap bulan. Estimasi konsumsi bulan berikutnya adalah ${prediction.toFixed(2)} kWh.
             </div>
         `
@@ -317,10 +319,10 @@ function exportExcel() {
     const calculations = calculateAll();
 
     const rows = data.map((item, index) => ({
-        x: index + 1,
-        Bulan: item.month,
-        kWh: item.kwh,
-        Biaya: item.cost
+    x: index + 1,
+    [currentLanguage === "id" ? "Bulan" : "Month"]: item.month,
+    kWh: item.kwh,
+    [currentLanguage === "id" ? "Biaya" : "Cost"]: item.cost
     }));
 
     // Baris kosong
@@ -330,7 +332,7 @@ function exportExcel() {
     if (calculations.interpolation && !calculations.interpolation.error) {
         rows.push({
             x: "",
-            Bulan: "Hasil Interpolasi",
+            [currentLanguage === "id" ? "Bulan" : "Month"]:currentLanguage === "id"? "Hasil Interpolasi": "Interpolation Result",
             kWh: calculations.interpolation.y.toFixed(2),
             Biaya: ""
         });
@@ -340,7 +342,7 @@ function exportExcel() {
     if (calculations.regression) {
         rows.push({
             x: "",
-            Bulan: "Persamaan Regresi",
+            [currentLanguage === "id" ? "Bulan" : "Month"]:currentLanguage === "id"? "Persamaan Regresi": "Regression Equation",
             kWh: `y = ${calculations.regression.a.toFixed(4)} + ${calculations.regression.b.toFixed(4)}x`,
             Biaya: ""
         });
@@ -348,7 +350,7 @@ function exportExcel() {
         // Prediksi
         rows.push({
             x: calculations.nextX,
-            Bulan: "Prediksi Bulan Berikutnya",
+            [currentLanguage === "id" ? "Bulan" : "Month"]:currentLanguage === "id"? "Prediksi Bulan Berikutnya": "Next Month Prediction",
             kWh: calculations.prediction.toFixed(2),
             Biaya: ""
         });
@@ -365,23 +367,22 @@ function exportExcel() {
     ];
 
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(
-        workbook,
-        worksheet,
-        "Konsumsi Listrik"
+    XLSX.utils.book_append_sheet(workbook,worksheet,currentLanguage === "id"? "Konsumsi Listrik": "Electricity Consumption"
     );
 
-    XLSX.writeFile(
-        workbook,
-        "laporan-konsumsi-listrik.xlsx"
+    XLSX.writeFile(workbook,currentLanguage === "id"? "laporan-konsumsi-listrik.xlsx": "electricity-consumption-report.xlsx"
     );
 
-    showToast("File Excel berhasil dibuat.");
-}
+    showToast(currentLanguage === "id"? "File Excel berhasil dibuat.": "Excel file created successfully."
+    );
 
 function downloadPdf() {
     if (!data.length) {
-        showToast("Tidak ada data untuk PDF.");
+        showToast(
+    currentLanguage === "id"
+        ? "Tidak ada data untuk diekspor."
+        : "No data available for export."
+    );
         return;
     }
 
@@ -393,8 +394,9 @@ function downloadPdf() {
     doc.setFontSize(15);
     doc.text("Laporan Konsumsi Listrik", 14, 18);
     doc.setFontSize(10);
-    doc.text("Metode Interpolasi Linear dan Regresi Linear", 14, 26);
-
+    doc.text(currentLanguage === "id"? "Laporan Konsumsi Listrik": "Electricity Consumption Report",14,18);
+    doc.setFontSize(10);
+    doc.text(currentLanguage === "id"? "Metode Interpolasi Linear dan Regresi Linear": "Linear Interpolation and Regression Method",14,26);
     let y = 38;
     data.forEach((item, index) => {
         doc.text(`${index + 1}. ${item.month} - ${item.kwh} kWh - ${currency.format(item.cost)}`, 14, y);
@@ -468,7 +470,53 @@ const translations = {
         
         resultDesc: "Rumus, langkah, dan kesimpulan otomatis",
         
-        noDataMsg: "Masukkan minimal dua data agar interpolasi dan regresi dapat dihitung."
+        noDataMsg: "Masukkan minimal dua data agar interpolasi dan regresi dapat dihitung.",
+
+        interpolationTitle: "Interpolasi Linear",
+        regressionTitle: "Regresi Linear",
+        conclusionTitle: "Kesimpulan",
+        
+        nearestPoint: "Diketahui x",
+        interpolationResult: "Hasil interpolasi",
+        
+        equation: "Persamaan",
+        prediction: "Prediksi bulan ke",
+        
+        increase: "meningkat",
+        decrease: "menurun",
+        
+        conclusionText:
+        "Berdasarkan data yang dimasukkan, konsumsi listrik cenderung",
+        
+        estimateText:
+        "Estimasi konsumsi bulan berikutnya adalah",
+
+        invalidInput:
+        "Input belum valid. Periksa bulan, kWh, dan biaya.",
+        
+        dataAdded:
+        "Data berhasil ditambahkan.",
+        
+        dataDeleted:
+        "Data dihapus.",
+        
+        dataReset:
+        "Data berhasil direset.",
+        
+        sampleLoaded:
+        "Contoh data dimuat.",
+        
+        excelCreated:
+        "File Excel berhasil dibuat.",
+        
+        pdfCreated:
+        "File PDF dibuat.",
+        
+        noExportData:
+        "Tidak ada data untuk diekspor.",
+        
+        noPdfData:
+        "Tidak ada data untuk PDF."
     },
 
     en: {
@@ -510,11 +558,61 @@ const translations = {
         
         resultDesc: "Formulas, steps, and automatic conclusions",
         
-        noDataMsg: "Enter at least two data points before interpolation and regression can be calculated."
+        noDataMsg: "Enter at least two data points before interpolation and regression can be calculated.",
+
+        interpolationTitle: "Linear Interpolation",
+        regressionTitle: "Linear Regression",
+        conclusionTitle: "Conclusion",
+        
+        nearestPoint: "Given x",
+        interpolationResult: "Interpolation result",
+        
+        equation: "Equation",
+        prediction: "Prediction for month",
+        
+        increase: "increasing",
+        decrease: "decreasing",
+        
+        conclusionText:
+        "Based on the entered data, electricity consumption tends to be",
+        
+        estimateText:
+        "The estimated electricity consumption for the next month is",
+
+        invalidInput:
+        "Invalid input. Please check month, kWh, and cost.",
+        
+        dataAdded:
+        "Data added successfully.",
+        
+        dataDeleted:
+        "Data deleted.",
+        
+        dataReset:
+        "Data reset successfully.",
+        
+        sampleLoaded:
+        "Sample data loaded.",
+        
+        excelCreated:
+        "Excel file created successfully.",
+        
+        pdfCreated:
+        "PDF file created.",
+        
+        noExportData:
+        "No data available for export.",
+        
+        noPdfData:
+        "No data available for PDF."
         }
     };
 
 function setLanguage(lang) {
+
+    currentLanguage = lang;
+
+    localStorage.setItem("language", lang);
 
     Object.keys(translations[lang]).forEach(key => {
 
@@ -525,6 +623,8 @@ function setLanguage(lang) {
         }
 
     });
+
+    render(); // tambahkan ini
 
 }
 
