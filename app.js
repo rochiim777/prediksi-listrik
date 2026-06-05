@@ -514,8 +514,7 @@ const translations = {
         "Tidak ada data untuk diekspor.",
         
         noPdfData:"Tidak ada data untuk PDF."
-            }
-        };
+    },
 
     en: {
         heroTitle: "Electricity Consumption Using Interpolation and Linear Regression",
