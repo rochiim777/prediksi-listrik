@@ -10,6 +10,8 @@ const toast = document.getElementById("toast");
 let energyChart;
 let data = [];
 
+let currentLanguage = "id";
+
 const currency = new Intl.NumberFormat("id-ID", {
     style: "currency",
     currency: "IDR",
