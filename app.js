@@ -179,7 +179,7 @@ function renderTable() {
 function renderResult({ interpolation, interpolationX, regression, nextX, prediction }) {
     if (data.length < 2) {
         resultOutput.innerHTML =`<div class="step">${translations[currentLanguage].noDataMsg}</div>`;
-        return:
+        return;
     }
 
     const interpolationHtml = interpolation?.error
