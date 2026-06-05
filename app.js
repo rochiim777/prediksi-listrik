@@ -178,8 +178,8 @@ function renderTable() {
 
 function renderResult({ interpolation, interpolationX, regression, nextX, prediction }) {
     if (data.length < 2) {
-        resultOutput.innerHTML = `<div class="step">Masukkan minimal dua data agar interpolasi dan regresi dapat dihitung.</div>`;
-        return;
+        resultOutput.innerHTML =`<div class="step">${translations[currentLanguage].noDataMsg}</div>`;
+        return:
     }
 
     const interpolationHtml = interpolation?.error
