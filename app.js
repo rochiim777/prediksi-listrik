@@ -12,6 +12,7 @@ let data = [];
 
 let currentLanguage = "id";
 
+
 const currency = new Intl.NumberFormat("id-ID", {
     style: "currency",
     currency: "IDR",
@@ -441,7 +442,33 @@ const translations = {
 
         inputTitle: "Input Data",
         tableTitle: "Tabel Data",
-        resultTitle: "Hasil Perhitungan"
+        resultTitle: "Hasil Perhitungan",
+
+        totalDataLabel: "Total Data",
+        avgKwhLabel: "Rata-rata kWh",
+        totalCostLabel: "Total Biaya",
+        trendLabel: "Tren Regresi",
+
+        chartDesc: "Aktual, interpolasi, dan prediksi regresi",
+
+        inputDesc: "Masukkan bulan, kWh, dan biaya listrik",
+        
+        monthLabel: "Bulan",
+        monthPlaceholder: "Pilih Bulan",
+        
+        kwhLabel: "Pemakaian listrik (kWh)",
+        costLabel: "Biaya listrik (Rp)",
+        
+        addBtn: "Tambah",
+        
+        interpLabel: "Nilai x Interpolasi",
+        calculateBtn: "Hitung",
+        
+        tableDesc: "Data aktual penggunaan listrik",
+        
+        resultDesc: "Rumus, langkah, dan kesimpulan otomatis",
+        
+        noDataMsg: "Masukkan minimal dua data agar interpolasi dan regresi dapat dihitung."
     },
 
     en: {
@@ -457,9 +484,35 @@ const translations = {
 
         inputTitle: "Input Data",
         tableTitle: "Data Table",
-        resultTitle: "Calculation Results"
-    }
-};
+        resultTitle: "Calculation Results",
+
+        totalDataLabel: "Total Data",
+        avgKwhLabel: "Average kWh",
+        totalCostLabel: "Total Cost",
+        trendLabel: "Regression Trend",
+
+        chartDesc: "Actual, interpolation, and regression prediction",
+
+        inputDesc: "Enter month, kWh, and electricity cost",
+        
+        monthLabel: "Month",
+        monthPlaceholder: "Select Month",
+        
+        kwhLabel: "Electricity Usage (kWh)",
+        costLabel: "Electricity Cost (Rp)",
+        
+        addBtn: "Add",
+        
+        interpLabel: "Interpolation x Value",
+        calculateBtn: "Calculate",
+        
+        tableDesc: "Actual electricity consumption data",
+        
+        resultDesc: "Formulas, steps, and automatic conclusions",
+        
+        noDataMsg: "Enter at least two data points before interpolation and regression can be calculated."
+        }
+    };
 
 function setLanguage(lang) {
 
