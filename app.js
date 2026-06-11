@@ -82,6 +82,17 @@ window.addEventListener("load", () => {
 
 });
 
+$(document).ready(function () {
+
+    $('#monthInput').datepicker({
+        format: "MM yyyy",
+        minViewMode: 1,
+        autoclose: true,
+        language: "id"
+    });
+
+});
+
 dataForm.addEventListener("submit", (event) => {
     event.preventDefault();
     addData();
