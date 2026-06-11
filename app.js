@@ -726,3 +726,12 @@ window.addEventListener("DOMContentLoaded", () => {
     render();
 
 });
+
+$(document).ready(function () {
+    $('#monthInput').datepicker({
+        format: "MM yyyy",
+        minViewMode: 1,
+        autoclose: true,
+        language: currentLanguage
+    });
+});
