@@ -403,9 +403,8 @@ function downloadPdf() {
     const calculations = calculateAll();
     const regression = calculations.regression;
 
+
     doc.setFontSize(15);
-    doc.text("Laporan Konsumsi Listrik", 14, 18);
-    doc.setFontSize(10);
     doc.text(currentLanguage === "id"? "Laporan Konsumsi Listrik": "Electricity Consumption Report",14,18);
     doc.setFontSize(10);
     doc.text(currentLanguage === "id"? "Metode Interpolasi Linear dan Regresi Linear": "Linear Interpolation and Regression Method",14,26);
@@ -744,6 +743,22 @@ window.addEventListener("load", () => {
     }, 1000);
 });
 
+document
+    .getElementById("sampleBtn")
+    .addEventListener("click", loadSampleData);
+
+document
+    .getElementById("resetBtn")
+    .addEventListener("click", resetData);
+
+document
+    .getElementById("excelBtn")
+    .addEventListener("click", exportExcel);
+
+document
+    .getElementById("pdfBtn")
+    .addEventListener("click", downloadPdf);
+
 // ======================
 // DARK MODE
 // ======================
@@ -755,29 +770,23 @@ if (themeBtn) {
     const savedTheme =
         localStorage.getItem("theme") || "dark";
 
-    document.body.setAttribute(
-        "data-theme",
-        savedTheme
-    );
+    // saat halaman dibuka
+    if (savedTheme === "light") {
+        document.body.classList.add("light");
+    }
 
     themeBtn.addEventListener("click", () => {
 
-        const currentTheme =
-            document.body.getAttribute("data-theme");
+        document.body.classList.toggle("light");
 
-        const newTheme =
-            currentTheme === "dark"
+        const currentTheme =
+            document.body.classList.contains("light")
                 ? "light"
                 : "dark";
 
-        document.body.setAttribute(
-            "data-theme",
-            newTheme
-        );
-
         localStorage.setItem(
             "theme",
-            newTheme
+            currentTheme
         );
 
         render();
