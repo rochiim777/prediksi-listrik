@@ -10,6 +10,11 @@ const toast = document.getElementById("toast");
 let energyChart;
 let data = [];
 
+const currency = new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR"
+});
+
 let currentLanguage =localStorage.getItem("language") || "id";
 
 const months = {
@@ -39,13 +44,16 @@ function resetData() {
 }
 
 function loadSampleData() {
+    const sampleMonths = months[currentLanguage];
+
     data = [
-        { month: "Januari", kwh: 210, cost: 315000 },
-        { month: "Februari", kwh: 230, cost: 345000 },
-        { month: "Maret", kwh: 250, cost: 375000 },
-        { month: "April", kwh: 270, cost: 405000 },
-        { month: "Mei", kwh: 300, cost: 450000 }
+        { month: sampleMonths[0], kwh: 210, cost: 315000 },
+        { month: sampleMonths[1], kwh: 230, cost: 345000 },
+        { month: sampleMonths[2], kwh: 250, cost: 375000 },
+        { month: sampleMonths[3], kwh: 270, cost: 405000 },
+        { month: sampleMonths[4], kwh: 300, cost: 450000 }
     ];
+    
     interpXInput.value = "2.5";
     render();
     showToast(translations[currentLanguage].sampleLoaded);
@@ -56,6 +64,32 @@ function deleteRow(index) {
     render();
     showToast(translations[currentLanguage].dataDeleted);
 }
+
+dataForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const month = monthInput.value;
+    const kwh = Number(kwhInput.value);
+    const cost = Number(costInput.value);
+
+    if (!month || kwh <= 0 || cost <= 0) {
+        showToast(translations[currentLanguage].invalidInput);
+        return;
+    }
+
+    data.push({
+        month,
+        kwh,
+        cost
+    });
+
+    monthInput.value = "";
+    kwhInput.value = "";
+    costInput.value = "";
+
+    render();
+    showToast(translations[currentLanguage].dataAdded);
+});
 
 function render() {
     const calculations = calculateAll();
@@ -360,7 +394,7 @@ function exportExcel() {
 }
 function downloadPdf() {
     if (!data.length) {
-        showToast(translations[currentLanguage].pdfCreated);
+        showToast(translations[currentLanguage].noPdfData);
         return;
     }
 
@@ -389,7 +423,7 @@ function downloadPdf() {
     }
 
     doc.save("laporan-konsumsi-listrik.pdf");
-    showToast(translations[currentLanguage].namaKey);
+    showToast(translations[currentLanguage].pdfCreated);
 }
 
 function showToast(message) {
@@ -676,5 +710,19 @@ enBtn.addEventListener("click", () => {
 
     enBtn.classList.add("active");
     idBtn.classList.remove("active");
+
+});
+
+window.addEventListener("DOMContentLoaded", () => {
+
+    setLanguage(currentLanguage);
+
+    if (currentLanguage === "id") {
+        idBtn.classList.add("active");
+    } else {
+        enBtn.classList.add("active");
+    }
+
+    render();
 
 });
