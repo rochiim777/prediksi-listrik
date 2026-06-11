@@ -727,6 +727,8 @@ const translations = {
 
 function setLanguage(lang) {
 
+    console.log("SET LANGUAGE =", lang);
+
     currentLanguage = lang;
 
     localStorage.setItem("language", lang);
