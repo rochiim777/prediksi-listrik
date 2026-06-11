@@ -743,3 +743,43 @@ window.addEventListener("load", () => {
         loader.classList.add("hidden");
     }, 1000);
 });
+
+// ======================
+// DARK MODE
+// ======================
+
+const themeBtn = document.getElementById("themeBtn");
+
+if (themeBtn) {
+
+    const savedTheme =
+        localStorage.getItem("theme") || "dark";
+
+    document.body.setAttribute(
+        "data-theme",
+        savedTheme
+    );
+
+    themeBtn.addEventListener("click", () => {
+
+        const currentTheme =
+            document.body.getAttribute("data-theme");
+
+        const newTheme =
+            currentTheme === "dark"
+                ? "light"
+                : "dark";
+
+        document.body.setAttribute(
+            "data-theme",
+            newTheme
+        );
+
+        localStorage.setItem(
+            "theme",
+            newTheme
+        );
+
+        render();
+    });
+}
