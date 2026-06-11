@@ -48,7 +48,7 @@ function loadSampleData() {
     ];
     interpXInput.value = "2.5";
     render();
-    showToast(translations[currentLanguage].namaKey);
+    showToast(translations[currentLanguage].sampleLoaded);
 }
 
 function deleteRow(index) {
@@ -294,7 +294,7 @@ function renderChart({ interpolation, interpolationX, regression, nextX, predict
 
 function exportExcel() {
     if (!data.length) {
-        showToast(translations[currentLanguage].namaKey);
+        showToast(translations[currentLanguage].noExportData);
         return;
     }
 
@@ -360,11 +360,7 @@ function exportExcel() {
 }
 function downloadPdf() {
     if (!data.length) {
-        showToast(
-    currentLanguage === "id"
-        ? "Tidak ada data untuk diekspor."
-        : "No data available for export."
-    );
+        showToast(translations[currentLanguage].pdfCreated);
         return;
     }
 
