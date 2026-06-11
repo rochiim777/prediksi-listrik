@@ -26,103 +26,11 @@ const months = {
     ]
 };
 
+/*
 function updateMonthOptions(lang) {
-
-    const monthInput = document.getElementById("monthInput");
-
-    monthInput.innerHTML = "";
-
-    const defaultOption = document.createElement("option");
-    defaultOption.value = "";
-    defaultOption.disabled = true;
-    defaultOption.selected = true;
-
-    defaultOption.textContent =
-        lang === "id"
-            ? "Pilih Bulan"
-            : "Select Month";
-
-    monthInput.appendChild(defaultOption);
-
-    months[lang].forEach(month => {
-
-        const option = document.createElement("option");
-
-        option.value = month;
-        option.textContent = month;
-
-        monthInput.appendChild(option);
-
-    });
+    ...
 }
-
-
-const currency = new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    maximumFractionDigits: 0
-});
-
-window.addEventListener("load", () => {
-
-    const savedLanguage =
-        localStorage.getItem("language") || "id";
-
-    currentLanguage = savedLanguage;
-
-    setLanguage(savedLanguage);
-
-    setTimeout(() =>
-        document.getElementById("loader")
-            .classList.add("hidden"),
-        450
-    );
-
-    render();
-
-});
-
-$(document).ready(function () {
-
-    $('#monthInput').datepicker({
-        format: "MM yyyy",
-        minViewMode: 1,
-        autoclose: true,
-        language: "id"
-    });
-
-});
-
-dataForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-    addData();
-});
-
-document.querySelector(".primary-btn.full").addEventListener("click", render);
-document.getElementById("resetBtn").addEventListener("click", resetData);
-document.getElementById("sampleBtn").addEventListener("click", loadSampleData);
-document.getElementById("themeBtn").addEventListener("click", () => {
-    document.body.classList.toggle("light");
-    renderChart(calculateAll());
-});
-document.getElementById("excelBtn").addEventListener("click", exportExcel);
-document.getElementById("pdfBtn").addEventListener("click", downloadPdf);
-
-function addData() {
-    const month = monthInput.value.trim();
-    const kwh = Number(kwhInput.value);
-    const cost = Number(costInput.value);
-
-    if (!month || !Number.isFinite(kwh) || !Number.isFinite(cost) || kwh <= 0 || cost < 0) {
-        showToast(translations[currentLanguage].invalidInput);
-        return;
-    }
-
-    data.push({ month, kwh, cost });
-    dataForm.reset();
-    render();
-    showToast(translations[currentLanguage].dataAdded);
-}
+*/
 
 function resetData() {
     data = [];
@@ -727,8 +635,6 @@ const translations = {
 
 function setLanguage(lang) {
 
-    console.log("SET LANGUAGE =", lang);
-
     currentLanguage = lang;
 
     localStorage.setItem("language", lang);
@@ -743,8 +649,15 @@ function setLanguage(lang) {
 
     });
 
-    updateMonthOptions(lang);
+    $('#monthInput').datepicker('destroy');
 
+    $('#monthInput').datepicker({
+        format: "MM yyyy",
+        minViewMode: 1,
+        autoclose: true,
+        language: lang
+    });
+    
     render(); // tambahkan ini
 
 }
