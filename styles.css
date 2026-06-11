@@ -1,4 +1,16 @@
 :root {
+    --bg: #07111f;
+    --card: #0f1c2e;
+    --text: #ffffff;
+}
+
+body.light {
+    --bg: #f4f7fb;
+    --card: #ffffff;
+    --text: #111827;
+}
+
+:root {
     --bg: #06121f;
     --panel: rgba(11, 31, 52, 0.74);
     --panel-strong: rgba(13, 39, 65, 0.92);
