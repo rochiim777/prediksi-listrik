@@ -74,6 +74,15 @@ dataForm.addEventListener("submit", (e) => {
 
     if (!month || kwh <= 0 || cost <= 0) {
         showToast(translations[currentLanguage].invalidInput);
+        return:
+    }
+
+    if (data.some(item => item.month === month)) {
+        showToast(
+            currentLanguage === "id"
+                ? "Data bulan tersebut sudah ada."
+                : "This month already exists."
+        );
         return;
     }
 
@@ -155,7 +164,23 @@ function calculateRegression(xValues, yValues) {
 
     const b = (n * sumXY - sumX * sumY) / denominator;
     const a = (sumY - b * sumX) / n;
-    return { n, sumX, sumY, sumXY, sumX2, a, b };
+    // Hitung R²
+    const meanY = sumY / n;
+    
+    const ssTotal = yValues.reduce(
+        (sum, y) => sum + Math.pow(y - meanY, 2),
+        0
+    );
+    
+    const ssResidual = yValues.reduce((sum, y, index) => {
+        const predicted = a + b * xValues[index];
+        return sum + Math.pow(y - predicted, 2);
+    }, 0);
+    
+    const r2 = ssTotal === 0
+        ? 1
+        : 1 - (ssResidual / ssTotal);
+    return { n, sumX, sumY, sumXY, sumX2, a, b, r2 };
 }
 
 function renderStats({ regression, prediction }) {
@@ -221,14 +246,18 @@ function renderResult({ interpolation, interpolationX, regression, nextX, predic
                 a = (Σy - bΣx) / n<br>
                 <strong>a = ${regression.a.toFixed(4)}, b = ${regression.b.toFixed(4)}</strong><br>
                 ${translations[currentLanguage].equation}: <strong>y = ${regression.a.toFixed(4)} + ${regression.b.toFixed(4)}x</strong><br>
+                <br>R² = <strong>${regression.r2.toFixed(4)}</strong><br>
                 ${translations[currentLanguage].prediction}${nextX}: <strong>${prediction.toFixed(2)} kWh</strong>
             </div>
             <div class="step">
                 <strong>${translations[currentLanguage].conclusionTitle}</strong>
+                <br><br> R² = <strong>${(regression.r2 * 100).toFixed(2)}%</strong> menunjukkan bahwa model regresi mampu menjelaskan <strong>${(regression.r2 * 100).toFixed(2)}%</strong> variasi konsumsi listrik berdasarkan data yang tersedia.
                 ${translations[currentLanguage].conclusionText} ${regression.b >= 0
                                                                   ? translations[currentLanguage].increase
                                                                   : translations[currentLanguage].decrease}
-                ${Math.abs(regression.b).toFixed(2)} ${translations[currentLanguage].everyMonth}${translations[currentLanguage].estimateText} ${prediction.toFixed(2)} kWh.
+                ${Math.abs(regression.b).toFixed(2)} ${translations[currentLanguage].everyMonth}
+                <br><br>
+                ${translations[currentLanguage].estimateText} <strong>${prediction.toFixed(2)} kWh.</strong>
             </div>
         `
         : "";
@@ -370,6 +399,14 @@ function exportExcel() {
             kWh: calculations.prediction.toFixed(2),
             Biaya: ""
         });
+
+        rows.push({
+            x: "",
+            [currentLanguage === "id" ? "Bulan" : "Month"]:currentLanguage === "id" ? "Koefisien Determinasi (R²)" : "Coefficient of Determination (R²)",
+            kWh: calculations.regression.r2.toFixed(4),
+            Biaya: ""
+        });
+        
     }
 
     const worksheet = XLSX.utils.json_to_sheet(rows);
@@ -418,6 +455,7 @@ function downloadPdf() {
     if (regression) {
         doc.text(`Persamaan regresi: y = ${regression.a.toFixed(4)} + ${regression.b.toFixed(4)}x`, 14, y);
         y += 7;
+        doc.text(`R² = ${regression.r2.toFixed(4)}`,14,y);
         doc.text(`Prediksi bulan ke-${calculations.nextX}: ${calculations.prediction.toFixed(2)} kWh`, 14, y);
     }
 
@@ -462,8 +500,6 @@ const translations = {
         totalCostLabel: "Total Biaya",
         trendLabel: "Tren Regresi",
 
-        chartDesc: "Aktual, interpolasi, dan prediksi regresi",
-
         inputDesc: "Masukkan bulan, kWh, dan biaya listrik",
         
         monthLabel: "Bulan",
@@ -498,9 +534,6 @@ const translations = {
         
         conclusionText:
         "Berdasarkan data yang dimasukkan, konsumsi listrik cenderung",
-        
-        estimateText:
-        "Estimasi konsumsi bulan berikutnya adalah",
 
         invalidInput:
         "Input belum valid. Periksa bulan, kWh, dan biaya.",
@@ -526,7 +559,6 @@ const translations = {
         noExportData:
         "Tidak ada data untuk diekspor.",
         
-        noPdfData:"Tidak ada data untuk PDF.",
 
         chartTitle: "Grafik Konsumsi",
         chartDesc: "Aktual, interpolasi, dan prediksi regresi",
@@ -541,8 +573,6 @@ const translations = {
         noPdfData:"Tidak ada data untuk PDF.",
 
         noDataTable:"Belum ada data.",
-    
-        chartTitle:"Grafik Konsumsi",
 
         chartActual: "Aktual kWh",
         chartRegression: "Regresi & Prediksi",
@@ -750,6 +780,10 @@ document
 document
     .getElementById("resetBtn")
     .addEventListener("click", resetData);
+
+document
+    .getElementById("calculateBtnAction")
+    .addEventListener("click", render);
 
 document
     .getElementById("excelBtn")
