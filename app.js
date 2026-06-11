@@ -103,7 +103,7 @@ function addData() {
     const cost = Number(costInput.value);
 
     if (!month || !Number.isFinite(kwh) || !Number.isFinite(cost) || kwh <= 0 || cost < 0) {
-        showToast("Input belum valid. Periksa bulan, kWh, dan biaya.");
+        showToast(translations[currentLanguage].invalidInput);
         return;
     }
 
@@ -116,7 +116,7 @@ function addData() {
 function resetData() {
     data = [];
     render();
-    showToast("Data berhasil direset.");
+    showToast(translations[currentLanguage].dataReset);
 }
 
 function loadSampleData() {
@@ -129,7 +129,7 @@ function loadSampleData() {
     ];
     interpXInput.value = "2.5";
     render();
-    showToast("Contoh data dimuat.");
+    showToast(translations[currentLanguage].namaKey);
 }
 
 function deleteRow(index) {
@@ -219,7 +219,12 @@ function renderStats({ regression, prediction }) {
 
 function renderTable() {
     if (!data.length) {
-        dataTable.innerHTML = `<tr><td colspan="5" class="text-center py-4">Belum ada data.</td></tr>`;
+        dataTable.innerHTML = `
+            <tr>
+                <td colspan="5" class="text-center py-4">
+                    ${translations[currentLanguage].noDataTable}
+                </td>
+            </tr>`;
         return;
     }
 
@@ -283,7 +288,7 @@ function renderChart({ interpolation, interpolationX, regression, nextX, predict
     const actualValues = data.map((item) => item.kwh);
     const regressionValues = data.map((_, index) => regression ? regression.a + regression.b * (index + 1) : null);
 
-    const extendedLabels = [...labels, `Prediksi ${nextX}`];
+    const extendedLabels = [...labels,`${translations[currentLanguage].predictionMonth} ${nextX}`];
     const actualSeries = [...actualValues, null];
     const regressionSeries = [...regressionValues, prediction || null];
     const interpolationSeries = new Array(extendedLabels.length).fill(null);
@@ -303,7 +308,7 @@ function renderChart({ interpolation, interpolationX, regression, nextX, predict
                 labels: extendedLabels,
                 datasets: [
                     {
-                        label: "Aktual kWh",
+                        label: translations[currentLanguage].chartActual,
                         data: actualSeries,
                         borderColor: "#19d7ff",
                         backgroundColor: "rgba(25, 215, 255, 0.16)",
@@ -313,7 +318,7 @@ function renderChart({ interpolation, interpolationX, regression, nextX, predict
                         pointHoverRadius: 5
                     },
                     {
-                        label: "Regresi & Prediksi",
+                        label: translations[currentLanguage].chartRegression,
                         data: regressionSeries,
                         borderColor: "#32e6a7",
                         borderDash: [8, 6],
@@ -322,7 +327,7 @@ function renderChart({ interpolation, interpolationX, regression, nextX, predict
                         pointHoverRadius: 5
                     },
                     {
-                        label: "Interpolasi",
+                        label: translations[currentLanguage].chartInterpolation,
                         data: interpolationSeries,
                         borderColor: "#ffcf5a",
                         pointBackgroundColor: "#ffcf5a",
@@ -370,7 +375,7 @@ function renderChart({ interpolation, interpolationX, regression, nextX, predict
 
 function exportExcel() {
     if (!data.length) {
-        showToast("Tidak ada data untuk diekspor.");
+        showToast(translations[currentLanguage].namaKey);
         return;
     }
 
@@ -469,7 +474,7 @@ function downloadPdf() {
     }
 
     doc.save("laporan-konsumsi-listrik.pdf");
-    showToast("File PDF dibuat.");
+    showToast(translations[currentLanguage].namaKey);
 }
 
 function showToast(message) {
@@ -585,6 +590,18 @@ const translations = {
         everyMonth: "kWh setiap bulan.",
         estimateText: "Estimasi konsumsi bulan berikutnya adalah",
 
+        noPdfData:"Tidak ada data untuk PDF.",
+
+        noDataTable:"Belum ada data.",
+    
+        chartTitle:"Grafik Konsumsi",
+
+        chartActual: "Aktual kWh",
+        chartRegression: "Regresi & Prediksi",
+        chartInterpolation: "Interpolasi",
+
+        predictionMonth: "Prediksi"
+
     },
 
     en: {
@@ -681,7 +698,19 @@ const translations = {
         knownX: "Given x",
         nearestPoint: "nearest points are",
         everyMonth: "kWh per month.",
-        estimateText: "The estimated electricity consumption for next month is"
+        estimateText: "The estimated electricity consumption for next month is",
+
+        noPdfData:"No data available for PDF.",
+
+        noDataTable:"No data available.",
+    
+        chartTitle:"Consumption Chart",
+
+        chartActual: "Actual kWh",
+        chartRegression: "Regression & Prediction",
+        chartInterpolation: "Interpolation",
+
+        predictionMonth: "Prediction"
         }
     };
 
