@@ -74,7 +74,7 @@ dataForm.addEventListener("submit", (e) => {
 
     if (!month || kwh <= 0 || cost <= 0) {
         showToast(translations[currentLanguage].invalidInput);
-        return:
+        return;
     }
 
     if (data.some(item => item.month === month)) {
