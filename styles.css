@@ -625,3 +625,29 @@ table {
         font-size:0.8rem;
     }
 }
+
+.month-picker-wrapper{
+    position: relative;
+}
+
+.month-picker-wrapper i{
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    z-index: 2;
+}
+
+.month-picker{
+    width: 100%;
+    min-height: 46px;
+    padding-left: 45px !important;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--text);
+}
